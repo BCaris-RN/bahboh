@@ -6,6 +6,8 @@ Bahboh is a polished Flutter web puzzle game where glowing bubbles drift downwar
 
 Created using 8gentiC | Caris | Phoenx
 
+![Bahboh bubble mark](docs/images/baboh.gif)
+
 The goal is simple to read and hard to master: build the best legal board you can before the bubbles reach the top.
 
 ## Core Gameplay
