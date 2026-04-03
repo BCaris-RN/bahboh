@@ -1,32 +1,33 @@
 # Bahboh
 
-**Tagline:** Stack the glow. Clear the danger. Beat the clock.
+**Tagline:** Stack the glow. Clear the danger. Keep the field alive.
 
-Bahboh is a polished Flutter web puzzle game where glowing bubbles fall by gravity, players drag the active bubble into position, valid **OK** color groups score big, and **Not OK** bubbles annihilate on contact.
+Bahboh is a polished Flutter web puzzle game where glowing bubbles drift downward, players drag the active bubble before it locks, and danger colors annihilate on contact.
 
-The goal is simple to read and hard to master: build the best legal board you can before time runs out or the screen fills up.
+Created using 8gentiC | Caris | Phoenx
+
+The goal is simple to read and hard to master: build the best legal board you can before the bubbles reach the top.
 
 ## Core Gameplay
 
-- Glowing bubbles fall in three sizes
+- The game opens on a splash screen with the Bahboh mark and a short play prompt
+- Glowing bubbles fall in three visible sizes
 - Colors span the full ROYGBIV spectrum
-- Each round defines:
-  - **OK** color combinations
-  - **Not OK** color combinations
-- Players drag the active falling bubble before it locks into place
-- Any **Not OK** bubble that touches any other **Not OK** bubble annihilates
-- The best score comes from:
-  - building strong **OK** formations
-  - clearing danger efficiently
-  - ending the round with minimal remaining **Not OK** bubbles
+- Players can drag the active bubble horizontally before lock
+- A small downward soft drop is available for faster descent
+- Once a bubble locks, it becomes part of the board and can no longer be dragged
+- Any **Not OK** bubble that touches any other **Not OK** bubble annihilates deterministically
+- Level banners appear when the board advances to a new phase
+- Combo recipes rotate as the level advances
+- The board only ends when bubbles actually reach the top edge
 
 ## Bahboh V1 Scope
 
 - Flutter-first
 - Web-first
 - Single-player
-- Timed puzzle gameplay
-- Handcrafted and generated rounds
+- Endless arcade puzzle gameplay with phase-based level banners
+- Handcrafted round law and seeded replay support through the same round contract
 - Pause/resume support
 - Local score + settings persistence
 - SFX-first audio
@@ -38,25 +39,23 @@ The goal is simple to read and hard to master: build the best legal board you ca
 
 ## Design Goals
 
-Bahboh is being built to showcase modern AI-assisted application development with a premium visual experience:
-- luminous jelly-like bubbles
-- rich glow and impact feedback
+Bahboh is built to showcase a premium Flutter web presentation with:
+- radioactive neon bubble art
+- transparent membranes and strong glow
+- lush board atmosphere and pop residue
 - glassy futuristic HUD
-- satisfying audio cues
 - accessible reduced-motion and color-safe options
 
 ## Status
 
-Bahboh is currently in governed preproduction / vertical-slice planning.
-
-The gameplay law, scope boundary, and scoring direction are being locked before the first playable browser build.
+Bahboh is currently in a governed browser-playable build with a splash screen, soft-drop control, level banners, and locked gameplay law.
 
 ## Stack
 
 - Flutter
 - Flutter Web
 - Local persistence
-- Governed through **8gentiC | Caris | Phoenix**
+- Governed through **8gentiC | Caris | Phoenx**
 
 ## Vision
 

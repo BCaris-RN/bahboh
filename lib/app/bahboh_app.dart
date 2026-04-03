@@ -13,7 +13,7 @@ class BahbohApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: buildBahbohTheme(),
       onGenerateRoute: BahbohRouter.onGenerateRoute,
-      initialRoute: '/',
+      initialRoute: BahbohRouter.splashRoute,
     );
   }
 }
