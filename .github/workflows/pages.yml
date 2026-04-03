@@ -34,18 +34,21 @@ jobs:
           channel: stable
 
       - name: Flutter pub get
+        working-directory: bahboh
         run: flutter pub get
 
       - name: Flutter analyze
+        working-directory: bahboh
         run: flutter analyze
 
       - name: Build web
+        working-directory: bahboh
         run: flutter build web --release
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./build/web
+          path: ./bahboh/build/web
 
   deploy:
     environment:
