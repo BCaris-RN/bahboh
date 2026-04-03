@@ -5,16 +5,16 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 permissions:
   contents: read
   pages: write
   id-token: write
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: true
 
 jobs:
@@ -27,35 +27,42 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
 
+      - name: Show repo root
+        run: |
+          pwd
+          ls -la
+
+      - name: Verify Flutter project files exist
+        run: |
+          test -f pubspec.yaml
+          test -f web/index.html
+          test -f lib/main.dart
+
       - name: Flutter pub get
-        working-directory: bahboh
         run: flutter pub get
 
-      - name: Flutter analyze
-        working-directory: bahboh
-        run: flutter analyze
-
       - name: Build web
-        working-directory: bahboh
-        run: flutter build web --release
+        run: flutter build web --release --base-href /bahboh/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./bahboh/build/web
+          path: build/web
 
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
 
     steps:
       - name: Deploy to GitHub Pages
