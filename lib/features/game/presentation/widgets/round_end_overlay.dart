@@ -62,8 +62,10 @@ class RoundEndOverlay extends StatelessWidget {
                 ),
                 const SizedBox(height: 22),
                 FilledButton(
-                  onPressed: controller.restartRound,
-                  child: const Text('Restart Round'),
+                  onPressed: success
+                      ? controller.advanceToNextRound
+                      : controller.restartRound,
+                  child: Text(success ? 'Next Stage' : 'Restart Round'),
                 ),
               ],
             ),

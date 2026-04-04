@@ -64,6 +64,8 @@ class RoundDefinition {
     this.tickMs = 16,
     this.spawnOriginXUnits,
     this.spawnOriginYUnits = 0.9,
+    this.shieldActivationProgress = 1.0,
+    this.warningCountdownMs = 0,
   });
 
   final String id;
@@ -81,6 +83,8 @@ class RoundDefinition {
   final int tickMs;
   final double? spawnOriginXUnits;
   final double spawnOriginYUnits;
+  final double shieldActivationProgress;
+  final int warningCountdownMs;
 
   double get resolvedSpawnOriginXUnits => spawnOriginXUnits ?? boardColumns / 2;
   int get spawnIntervalMs => motionProfile.spawnIntervalMs;

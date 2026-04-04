@@ -27,10 +27,10 @@ class GameHud extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 16),
-            Expanded(
-              child: _HudMetric(
-                label: 'Timer',
-                value: formatClock(controller.timerRemainingMs),
+          Expanded(
+            child: _HudMetric(
+              label: 'Timer',
+              value: formatClock(controller.timerRemainingMs),
                 valueStyle: theme.textTheme.displaySmall?.copyWith(
                   color: controller.timerRemainingMs <= 10000
                       ? theme.colorScheme.error
@@ -39,11 +39,11 @@ class GameHud extends StatelessWidget {
                     FontFeature.tabularFigures(),
                   ],
                 ),
-                accent: controller.timerRemainingMs <= 10000
-                    ? theme.colorScheme.error
-                    : theme.colorScheme.primary,
-              ),
+              accent: controller.timerRemainingMs <= 10000
+                  ? theme.colorScheme.error
+                  : theme.colorScheme.primary,
             ),
+          ),
             const SizedBox(width: 16),
             Expanded(
               child: _HudMetric(
@@ -93,6 +93,35 @@ class GameHud extends StatelessWidget {
             ),
           ),
         ),
+        if (controller.timerRemainingMs <= 30000)
+          Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.error.withValues(alpha: 0.16),
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(
+                    color: theme.colorScheme.error.withValues(alpha: 0.28),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 10,
+                  ),
+                  child: Text(
+                    'WARNING: 30 seconds left. Get to the top.',
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      color: Colors.white.withValues(alpha: 0.92),
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
       ],
     );
   }

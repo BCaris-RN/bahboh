@@ -9,11 +9,13 @@ class BubbleFieldPainter extends CustomPainter {
     required this.boardState,
     required this.activeBubble,
     required this.urgencyStrength,
+    required this.shieldActive,
   }) : _bubblePainter = const BubblePainter();
 
   final BoardState boardState;
   final BubbleEntity? activeBubble;
   final double urgencyStrength;
+  final bool shieldActive;
   final BubblePainter _bubblePainter;
 
   @override
@@ -24,7 +26,7 @@ class BubbleFieldPainter extends CustomPainter {
         size: size,
         boardState: boardState,
         bubble: bubble,
-        glowBoost: 0.12 + bubble.settleEnergy * 0.5,
+        glowBoost: (shieldActive ? 0.34 : 0.12) + bubble.settleEnergy * 0.5,
       );
     }
 
@@ -43,6 +45,7 @@ class BubbleFieldPainter extends CustomPainter {
   bool shouldRepaint(covariant BubbleFieldPainter oldDelegate) {
     return oldDelegate.boardState != boardState ||
         oldDelegate.activeBubble != activeBubble ||
-        oldDelegate.urgencyStrength != urgencyStrength;
+        oldDelegate.urgencyStrength != urgencyStrength ||
+        oldDelegate.shieldActive != shieldActive;
   }
 }
