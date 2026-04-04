@@ -22,17 +22,22 @@ class SplashScreen extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 24, 24, 28),
-            child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                final bool compact = constraints.maxWidth < 860;
-                final Widget content = compact
-                    ? _CompactSplash(constraints: constraints)
-                    : const _WideSplash();
-                return content;
-              },
-            ),
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              final bool compact = constraints.maxWidth < 860;
+              return SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 24, 24, 28),
+                    child: compact
+                        ? _CompactSplash(constraints: constraints)
+                        : const _WideSplash(),
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),
