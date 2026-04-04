@@ -4,7 +4,12 @@
 
 Bahboh is a polished Flutter web puzzle game where glowing bubbles drift downward, players drag the active bubble before it locks, and danger colors annihilate on contact.
 
-Created using 8gentiC | Caris | Phoenx
+Created using 8gentiC | Caris | Phoenix
+by Caris Industries
+
+8gentiC - Agentic workflow where agents cover every aspect of the SDLC
+Caris - A deterministic governance-first layer adressing anti-slop, halucination etc. keeping AI models in strict form
+Phoenix - Runtime layer executing and orchestrating the 8gentiC and Caris protocols
 
 Live site: https://bcaris-rn.github.io/bahboh/
 
