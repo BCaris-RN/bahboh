@@ -92,10 +92,12 @@ class _CompactSplash extends StatelessWidget {
               maxWidth: 420,
               maxHeight: 320,
             ),
-            child: Image.asset(
-              'assets/branding/baboh.gif',
-              fit: BoxFit.contain,
-              filterQuality: FilterQuality.high,
+            child: _EnterableSplashArt(
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed(
+                  BahbohRouter.gameRoute,
+                );
+              },
             ),
           ),
         ),
@@ -149,10 +151,12 @@ class _WideSplash extends StatelessWidget {
                 maxWidth: 620,
                 maxHeight: 620,
               ),
-              child: Image.asset(
-                'assets/branding/baboh.gif',
-                fit: BoxFit.contain,
-                filterQuality: FilterQuality.high,
+              child: _EnterableSplashArt(
+                onTap: () {
+                  Navigator.of(context).pushReplacementNamed(
+                    BahbohRouter.gameRoute,
+                  );
+                },
               ),
             ),
           ),
@@ -225,6 +229,36 @@ class _WideSplash extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _EnterableSplashArt extends StatelessWidget {
+  const _EnterableSplashArt({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      label: 'Enter Bahboh',
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: onTap,
+          child: SizedBox.expand(
+            child: Center(
+              child: Image.asset(
+                'assets/branding/baboh.gif',
+                fit: BoxFit.contain,
+                filterQuality: FilterQuality.high,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
