@@ -62,6 +62,7 @@ class GameBoard extends StatelessWidget {
                       boardState: controller.boardState,
                       activeBubble: controller.activeBubble,
                       urgencyStrength: urgencyStrength,
+                      shieldActive: controller.shieldActive,
                     ),
                   ),
                   IgnorePointer(

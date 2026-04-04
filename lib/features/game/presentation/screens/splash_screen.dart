@@ -52,82 +52,83 @@ class _CompactSplash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'BAHBOH',
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.92),
-              fontSize: 30,
-              fontWeight: FontWeight.w900,
-              letterSpacing: 6,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Align(
+          alignment: Alignment.centerRight,
+          child: _EnterButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacementNamed(
+                BahbohRouter.gameRoute,
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 20),
+        Text(
+          'BAHBOH',
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: 0.92),
+            fontSize: 30,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 6,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          'A glowing bubble puzzle where hidden color sets detonate and the board becomes light.',
+          style: TextStyle(
+            color: const Color(0xFFD8EFFF).withValues(alpha: 0.82),
+            fontSize: 15,
+            height: 1.35,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 24),
+        Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 420,
+              maxHeight: 320,
+            ),
+            child: Image.asset(
+              'assets/branding/baboh.gif',
+              fit: BoxFit.contain,
+              filterQuality: FilterQuality.high,
             ),
           ),
-          const SizedBox(height: 10),
-          Text(
-            'A glowing bubble puzzle where hidden color sets detonate and the board becomes light.',
-            style: TextStyle(
-              color: const Color(0xFFD8EFFF).withValues(alpha: 0.82),
-              fontSize: 15,
-              height: 1.35,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 24),
-          Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 420,
-                maxHeight: 320,
+        ),
+        const SizedBox(height: 24),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _InstructionLine(
+                label: 'DISCOVER',
+                text: 'the hidden OK sets before the board fills.',
               ),
-              child: Image.asset(
-                'assets/branding/baboh.gif',
-                fit: BoxFit.contain,
-                filterQuality: FilterQuality.high,
+              const SizedBox(height: 16),
+              _InstructionLine(
+                label: 'MOVE',
+                text: 'the falling bubble before it locks into place.',
               ),
-            ),
+              const SizedBox(height: 16),
+              _InstructionLine(
+                label: 'SURVIVE',
+                text:
+                    'the Not OK bubbles by letting matching danger colors annihilate cleanly.',
+              ),
+              const SizedBox(height: 16),
+              _InstructionLine(
+                label: 'PLAY',
+                text: 'with quick drags, soft drops, and sharp timing.',
+              ),
+            ],
           ),
-          const SizedBox(height: 24),
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 420),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _InstructionLine(
-                  label: 'DISCOVER',
-                  text: 'the hidden OK sets before the board fills.',
-                ),
-                const SizedBox(height: 16),
-                _InstructionLine(
-                  label: 'MOVE',
-                  text: 'the falling bubble before it locks into place.',
-                ),
-                const SizedBox(height: 16),
-                _InstructionLine(
-                  label: 'SURVIVE',
-                  text:
-                      'the Not OK bubbles by letting matching danger colors annihilate cleanly.',
-                ),
-                const SizedBox(height: 16),
-                _InstructionLine(
-                  label: 'PLAY',
-                  text: 'with quick drags, soft drops, and sharp timing.',
-                ),
-                const SizedBox(height: 26),
-                _EnterButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacementNamed(
-                      BahbohRouter.gameRoute,
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -164,9 +165,19 @@ class _WideSplash extends StatelessWidget {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 420),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: _EnterButton(
+                      onPressed: () {
+                        Navigator.of(context).pushReplacementNamed(
+                          BahbohRouter.gameRoute,
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   Text(
                     'BAHBOH',
                     style: TextStyle(
@@ -208,13 +219,6 @@ class _WideSplash extends StatelessWidget {
                     text: 'with quick drags, soft drops, and sharp timing.',
                   ),
                   const SizedBox(height: 30),
-                  _EnterButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacementNamed(
-                        BahbohRouter.gameRoute,
-                      );
-                    },
-                  ),
                 ],
               ),
             ),

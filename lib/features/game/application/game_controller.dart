@@ -38,6 +38,11 @@ class GameController extends ChangeNotifier {
        _scoreEngine = scoreEngine,
        _roundEndEngine = roundEndEngine,
        _feedbackDispatcher = feedbackDispatcher,
+       _roundIndex = roundDefinition == null
+           ? 0
+           : handcraftedRounds.indexWhere((RoundDefinition round) {
+               return round.id == roundDefinition.id;
+             }).clamp(0, handcraftedRounds.length - 1),
        _activeRound = roundDefinition ?? handcraftedRounds.first,
        _boardState = BoardState.empty(
          columns: (roundDefinition ?? handcraftedRounds.first).boardColumns,
@@ -54,7 +59,8 @@ class GameController extends ChangeNotifier {
   final RoundEndEngine _roundEndEngine;
   final GameFeedbackDispatcher _feedbackDispatcher;
 
-  final RoundDefinition _activeRound;
+  int _roundIndex;
+  RoundDefinition _activeRound;
   late BoardState _boardState;
   BubbleEntity? _activeBubble;
   GamePhase _phase = GamePhase.boot;
@@ -73,6 +79,8 @@ class GameController extends ChangeNotifier {
   bool _timerExpired = false;
   int _nextFxBurstId = 1;
   int _visualTick = 0;
+  bool _shieldActive = false;
+  bool _warningIssued = false;
   List<BubbleFxBurst> _fxBursts = const <BubbleFxBurst>[];
 
   RoundDefinition get activeRound => _activeRound;
@@ -85,6 +93,7 @@ class GameController extends ChangeNotifier {
   bool get isSoftDropping => _isSoftDropping;
   GameResult? get gameResult => _gameResult;
   String get statusMessage => _statusMessage;
+  bool get shieldActive => _shieldActive;
   List<BubbleFxBurst> get fxBursts =>
       List<BubbleFxBurst>.unmodifiable(_fxBursts);
   int get visualTick => _visualTick;
@@ -101,7 +110,9 @@ class GameController extends ChangeNotifier {
   String get notOkRuleSummary =>
       'any ${_activeRound.notOkSet.map((BubbleColor color) => color.label.toLowerCase()).join(' / ')} contact';
   String get roundGoal =>
-      'Survive until the timer ends while building OK groups and keeping danger colors apart.';
+      _roundIndex == 0
+          ? 'Build the stack to 80 percent, then race the 30-second warning to the top.'
+          : 'Find the allowed color in the helix, stack it in sequence, and keep the rest out.';
 
   void boot() {
     if (_phase != GamePhase.boot) {
@@ -113,6 +124,8 @@ class GameController extends ChangeNotifier {
 
   void startRound() {
     _resetForActiveRound();
+    _warningIssued = false;
+    _shieldActive = false;
     _phase = GamePhase.playing;
     _statusMessage = 'Round live. Drag the active bubble before lock.';
     _feedbackDispatcher.onRoundStart();
@@ -223,6 +236,8 @@ class GameController extends ChangeNotifier {
     _timerExpired = false;
     _nextFxBurstId = 1;
     _visualTick = 0;
+    _shieldActive = false;
+    _warningIssued = false;
     _fxBursts = const <BubbleFxBurst>[];
   }
 
@@ -240,6 +255,7 @@ class GameController extends ChangeNotifier {
         _timerExpired = true;
       }
     }
+    _updateRoundSignals();
 
     if (_activeBubble != null) {
       _advanceActiveBubble();
@@ -320,31 +336,33 @@ class GameController extends ChangeNotifier {
         boardState: _boardState,
         okSets: _activeRound.okSets,
       );
-      final AnnihilationStep? annihilation = _annihilationEngine.resolveFirst(
-        boardState: _boardState,
-        notOkSet: _activeRound.notOkSet,
-      );
-      if (annihilation != null) {
-        _boardState = annihilation.boardState;
-        _registerAnnihilationBurst(annihilation.pair);
-        final double qualityAfter = _scoreEngine.okStateQuality(
+      if (!_shieldActive) {
+        final AnnihilationStep? annihilation = _annihilationEngine.resolveFirst(
           boardState: _boardState,
-          okSets: _activeRound.okSets,
+          notOkSet: _activeRound.notOkSet,
         );
-        final bool qualityImproved = qualityAfter > qualityBefore + 0.0001;
-        final int scoreDelta = _scoreEngine.scoreAnnihilationPair(
-          pair: annihilation.pair,
-          scoringProfile: _activeRound.scoringProfile,
-          comboIndex: cleanupComboIndex,
-          qualityImproved: qualityImproved,
-        );
-        _currentScore += scoreDelta;
-        cleanupComboIndex = qualityImproved ? cleanupComboIndex + 1 : 0;
-        _statusMessage = qualityImproved
-            ? 'Danger contact annihilated. +$scoreDelta cleanup.'
-            : 'Danger contact annihilated. +$scoreDelta.';
-        _feedbackDispatcher.onAnnihilation();
-        continue;
+        if (annihilation != null) {
+          _boardState = annihilation.boardState;
+          _registerAnnihilationBurst(annihilation.pair);
+          final double qualityAfter = _scoreEngine.okStateQuality(
+            boardState: _boardState,
+            okSets: _activeRound.okSets,
+          );
+          final bool qualityImproved = qualityAfter > qualityBefore + 0.0001;
+          final int scoreDelta = _scoreEngine.scoreAnnihilationPair(
+            pair: annihilation.pair,
+            scoringProfile: _activeRound.scoringProfile,
+            comboIndex: cleanupComboIndex,
+            qualityImproved: qualityImproved,
+          );
+          _currentScore += scoreDelta;
+          cleanupComboIndex = qualityImproved ? cleanupComboIndex + 1 : 0;
+          _statusMessage = qualityImproved
+              ? 'Danger contact annihilated. +$scoreDelta cleanup.'
+              : 'Danger contact annihilated. +$scoreDelta.';
+          _feedbackDispatcher.onAnnihilation();
+          continue;
+        }
       }
 
       final OkResolution okResolution = _scoreEngine.resolveOkGroups(
@@ -414,6 +432,48 @@ class GameController extends ChangeNotifier {
     _statusMessage = _gameResult!.summary;
     _isSoftDropping = false;
     _feedbackDispatcher.onRoundEnd(success: true);
+  }
+
+  void advanceToNextRound() {
+    if (_roundIndex + 1 >= handcraftedRounds.length) {
+      return;
+    }
+    _roundIndex += 1;
+    _activeRound = handcraftedRounds[_roundIndex];
+    _boardState = BoardState.empty(
+      columns: _activeRound.boardColumns,
+      rows: _activeRound.boardRows,
+    );
+    _phase = GamePhase.preRound;
+    _statusMessage = 'Stage ${_roundIndex + 1} ready.';
+    _gameResult = null;
+    notifyListeners();
+  }
+
+  void _updateRoundSignals() {
+    final double progress = _stackProgress;
+    final bool nextShieldActive =
+        progress >= _activeRound.shieldActivationProgress;
+    if (nextShieldActive && !_shieldActive) {
+      _shieldActive = true;
+      _statusMessage = 'Shield online. The stack is glowing and safe from destruction.';
+    }
+    if (!_warningIssued &&
+        _activeRound.warningCountdownMs > 0 &&
+        _timerRemainingMs <= _activeRound.warningCountdownMs) {
+      _warningIssued = true;
+      _statusMessage = 'Warning: 30 seconds left. Get the stack to the top now.';
+    }
+  }
+
+  double get _stackProgress {
+    if (_boardState.lockedBubbles.isEmpty || _boardState.rows <= 0) {
+      return 0;
+    }
+    final double highestOccupancy = _boardState.lockedBubbles
+        .map((BubbleEntity bubble) => bubble.yUnits + bubble.radiusUnits)
+        .fold<double>(0, math.max);
+    return (highestOccupancy / _boardState.rows).clamp(0.0, 1.0);
   }
 
   void _finishFailure(String reason, {required int failurePenalty}) {
