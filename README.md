@@ -15,7 +15,6 @@ Live site: https://bcaris-rn.github.io/bahboh/
 
 ![Bahboh bubble mark](docs/images/baboh.gif)
 
-The goal is simple to read and hard to master: build the best legal board you can before the bubbles reach the top.
 
 ## Core Gameplay
 
@@ -71,3 +70,110 @@ Bahboh is currently in a governed browser-playable build with a splash screen, s
 Beautiful. Addicting. Readable. Fast.
 
 Bahboh should feel easy to understand in seconds, satisfying to play in minutes, and difficult to put down.
+
+## Addendum — Current Status and Direction
+
+Bahboh has already moved beyond the original early concept. What started as a timed round-based puzzle with explicit player instructions is now evolving into a more compelling endless arcade puzzle experience built around score-chasing, visual satisfaction, and discovery.
+
+### Where We Are Now
+
+The game has a real playable core.
+
+Bahboh is currently being shaped into an endless browser-first Flutter game where glowing bubbles fall, players drag and position them, hidden color-set combinations trigger explosive clears, and the goal is simply to survive as long as possible while building the highest score possible.
+
+The core direction is now much clearer:
+
+- no timer-driven pressure as the main mechanic
+- no overexplained instruction-heavy round flow
+- no rigid one-note combo system
+- infinite-style gameplay with shifting hidden set logic
+- score as the primary objective
+- the board itself becoming a canvas of color, glow, residue, and chain reactions
+
+We have already identified what is working and what is not.
+
+What is working:
+- the endless score-chase concept
+- the hidden-combo discovery loop
+- the feeling of dragging and placing falling bubbles
+- the visual potential of the glowing bubble field
+- the idea that successful clears should leave beautiful glowing residue behind
+
+What still needs improvement:
+- bubble physics still need to feel softer, floatier, and more bubble-like
+- visual abundance needs to increase dramatically
+- the game needs stronger level-up presentation and combo rotation
+- GitHub Pages deployment is still being finalized
+- the codebase needs cleanup and modularization after rapid prototyping
+
+### What Bahboh Is Becoming
+
+Bahboh is not meant to feel like a sterile puzzle board or a generic falling-ball game.
+
+The target experience is:
+
+- beautiful
+- addictive
+- readable
+- reactive
+- high-energy
+- easy to start
+- difficult to master
+
+The bubbles should feel radioactive, transparent, luminous, and alive. The board should feel like a dark premium canvas that gets painted by glowing explosions and color residue over time. The player should not need a long explanation to play. They should experiment, discover patterns, chase score, and keep going.
+
+### Current Design Direction
+
+The current intended gameplay loop is:
+
+1. bubbles continuously fall into the field
+2. the player drags active bubbles into position
+3. hidden color combinations create explosive clears
+4. successful clears add score and create visual beauty on the board
+5. enough successful clears advances the level
+6. each new level changes the active combo logic
+7. the game continues until the stack reaches the top
+
+This makes Bahboh less about “beating a puzzle” and more about “staying alive, learning the field, and chasing mastery.”
+
+### Where We Want To Go Next
+
+Near-term priorities:
+
+- finish stabilizing the endless gameplay loop
+- improve bubble motion so early gameplay feels floaty and elegant
+- make the three bubble sizes visually unmistakable
+- increase on-screen richness with atmospheric bubbles, glow, and residue
+- improve level-up feedback with stronger visual presentation
+- finalize top-of-board game-over behavior
+- get the project live on GitHub Pages
+
+After that, the next layer is polish and retention:
+
+- better sound effects and haptics
+- stronger visual FX for explosions and chain reactions
+- local best-score persistence
+- cleaner code structure beyond the initial prototype pass
+- optional accessibility and presentation refinements
+
+### Long-Term Vision
+
+Bahboh should become a browser game that feels premium, modern, and memorable.
+
+Not just “a Flutter game.”
+Not just “a puzzle prototype.”
+Not just “a falling bubble mechanic.”
+
+The goal is a distinctive arcade-puzzle experience with a visual identity strong enough to stand on its own:
+a glowing, evolving, endless color field where every good play feels rewarding and every session can turn into a score chase.
+
+### Honest Status
+
+Bahboh is currently in active prototype-to-playable transition.
+
+The concept is no longer vague.  
+The core loop is becoming fun.  
+The artistic direction is now much more clearly defined.  
+The next major milestone is a stable, polished browser-playable build hosted publicly.
+
+That is the immediate target.
