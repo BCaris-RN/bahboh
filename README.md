@@ -1,6 +1,6 @@
 # Bahboh
 
-**Tagline:** Stack the glow. Clear the danger. Keep the field alive.
+**Tagline:** Stack the glow. Clear the danger. Keep the field alive. Yeah sure the game can play itself forever.
 
 Bahboh is a polished Flutter web puzzle game where glowing bubbles drift downward, players drag the active bubble before it locks, and danger colors annihilate on contact.
 
